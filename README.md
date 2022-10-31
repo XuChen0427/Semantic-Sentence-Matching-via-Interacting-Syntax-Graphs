@@ -21,18 +21,25 @@ Any wrong for the module, please ref the following link
 url: https://github.com/Thinklab-SJTU/ThinkMatch
 
 ## 1. enter the stanford CoreNLP parser dir:
+ ```bash
 java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer -preload tokenize,ssplit,pos,lemma,ner,parse,depparse -status_port 9000 -port 9000 -timeout 1500000
+ ```
 
 ## 2. change the data dir to your own at configs/ and set your parameters
 
 ## 3. Preprepare the syntactic structures:
+```bash
 python build_graph.py configs/scitail.json5
+```
 note that we prepare the parsed scitail data to graphs/, if you need extra dataset, please run the parser
 
 ## 4. train the model:
+```bash
 python train.py configs/scitail.json5
+```
 
-#For citation, please cite the following bib
+##For citation, please cite the following bib
+```
 @inproceedings{xu-etal-2022-semantic,
 title = "Semantic Sentence Matching via Interacting Syntax Graphs",
 author = "Xu, Chen  and
@@ -47,5 +54,5 @@ publisher = "International Committee on Computational Linguistics",
 url = "https://aclanthology.org/2022.coling-1.78",
 pages = "938--949",
 }
-
+```
 
