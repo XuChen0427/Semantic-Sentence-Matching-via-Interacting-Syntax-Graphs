@@ -1,0 +1,90 @@
+{
+    //CUDA_VISIBLE_DEVICES=1
+    data_dir: 'data/scitail',
+    output_dir: 'scitail_ISG',
+    bert_config_dir: 'modeling_bert/bert-large-uncased-config.json',
+    bert_model_dir: 'modeling_bert/bert-large-uncased-pytorch_model.bin',
+    bert_vocal_dir: 'modeling_bert/bert-base-uncased-vocab.txt',
+    //graph_dir: 'graphs/scitail',
+    metric: 'acc',
+    image_dir: 'images/0917_absDis',
+    data_name: 'scitail',
+    graph_dir: 'graphs/scitail',
+    //graph_dir: 'test_graphs',
+    First2Second_CoomatrixFile: 'First2Second_CoomatrixFile.out',
+    //Second2Third_CoomatrixFile: 'Second2Third_CoomatrixFile.out',
+    WordFirst_NodeFile: 'WordFirst_NodeFile.out',
+    RelFirst_NodeFile: 'RelFirst_NodeFile.out',
+    RelSecond_NodeFile: 'RelSecond_NodeFile.out',
+    watch_metrics: ['f1','P','R','auc'],
+
+    model: {
+        //enc_layers: 2,
+        //prediction: 'full',
+        //blocks: 3,
+        //file_length:4,
+        file_length: 4,
+        min_length: 3,
+        max_length: 80,
+        num_classes: 2,
+        n_type: 5,
+        hidden_size: 128, //tuned among [64,512]
+        max_POSEdgeSize: 35, //dep:40 sem:
+        max_NEREdgeSize: 24, //dep:40 sem:
+        max_SynEdgeSize: 26,
+        max_SemEdgeSize: 51,
+
+        lambda_first_POS: 0.1,
+        lambda_first_NER: 1,
+        lambda_second_Syn: 0.01,
+        lambda_second_Sem: 1,
+        weight_decay: 0.001,
+
+        test_num: 2126,
+        val_num: 1304,
+        train_num: 23575,
+        max_one_len: 64,
+        max_syn_len: 63,
+        max_sem_len: 53,
+
+        predict_dim: 64,
+        //GM config
+        affinity_model: 'inner',
+        SK_TAU :0.005,
+        GNN_FEAT: [4, 4, 4],
+        GNN_LAYER:2,
+        SK_EMB:0,
+
+        GM_sparsity: 0.1,
+
+        WAS_type: 'POS', //"NER"
+        WRS_type: 'SYN', //'Sem'
+
+
+
+        //max_OrderTwo_len: 80,
+    },
+
+    routine: {
+        eval_per_samples: 12800,
+        eval_warmup_samples: 5120000,
+        eval_per_samples_warmup: 512000,
+        min_samples: 5120000,
+        tolerance_samples: 2560000,
+        epochs: 10, //tuned among [4,10]
+        total_data: 28000,
+    },
+
+    optim: {
+        lr: 1e-5,//tuned among [1e-5,5e-5]
+        syn_lr: 1e-5,//tuned among [1e-5,5e-5]
+        warmup_rate: 0.1,
+        gcn_min_lr: 2e-7,
+        min_lr: 5e-8,
+        lr_decay_samples: 800000,
+        batch_size: 4, //tuned among [4,64]
+        lr_warmup_samples: 1200000,
+        dropout: 0.2,//tuned among [0.1,0.5]
+        order: 3,
+    }
+}

@@ -1,0 +1,5 @@
+python >= 3.7
+pytorch >= 1.8.1+cu111
+pytorch-geometric >= 2.0.3
+gcc-7
+supar >= 1.1.4

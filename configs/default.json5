@@ -1,0 +1,62 @@
+{
+    basic: {
+        output_dir: 'default',
+        seed: null,
+        cuda: true,
+        multi_gpu: false,
+        deterministic: true, // GPU deterministic mode, will slow down training
+    },
+
+    data: {
+        data_dir: null,
+        max_len: 999, // large enough number, treated as unlimited
+        min_len: 1,
+    },
+
+    model: {
+        hidden_size: 150,
+        dropout: 0.2,
+    },
+
+    logging: {
+        log_file: 'log.txt',
+        log_per_samples: 5120,
+        summary_per_logs: 20,
+        tensorboard: true,
+    },
+
+    training: {
+        epochs: 30,
+        batch_size: 128,
+        grad_clipping: 5,
+        weight_decay: 0.0,
+        lr: 1e-3,
+        beta1: 0.9,
+        beta2: 0.999,
+        max_loss: 999., // tolerance for unstable training
+        lr_decay_rate: 0.99, // exp decay rate for lr
+        lr_decay_samples: 128000,
+        min_lr: 6e-5,
+        lr_warmup_samples: 0, // linear warmup steps for lr
+    },
+
+    evaluation: {
+        // available metrics: acc, auc, f1, map, mrr
+        metric: 'acc', // for early stopping
+        watch_metrics: ['auc', 'f1'], // shown in logs
+        eval_file: 'dev',
+        eval_per_samples: 6400,
+        eval_per_samples_warmup: 40000,
+        eval_warmup_samples: 0, // after this many steps warmup mode for eval ends
+        min_samples: 0, // train at least these many steps, not affected by early stopping
+        tolerance_samples: 400000, // early stopping
+        eval_epoch: true, // eval after epoch
+        eval_subset: null,
+    },
+
+    persistence: {
+        resume: null,
+        save: true,
+        save_all: false,
+    },
+}
